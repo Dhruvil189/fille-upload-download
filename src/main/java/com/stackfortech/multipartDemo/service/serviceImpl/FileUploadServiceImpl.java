@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
 
-    private String uploadFolderPath = "/Users/deomrinal/desktop/uploaded_";
+    private String uploadFolderPath = "E:\\";
     @Autowired
     private FileUploadRepository fileUploadRepository;
 
@@ -32,25 +32,25 @@ public class FileUploadServiceImpl implements FileUploadService {
     }
 
     @Override
-    public UploadedFile uploadToDb(MultipartFile file) {
+    public UploadedFile uploadToDb(MultipartFile file) throws IOException {
 
         UploadedFile uploadedFile = new UploadedFile();
         try {
-            uploadedFile.setFileData(file.getBytes());
+            uploadedFile.setFileName(String.valueOf(file.getBytes()));
             uploadedFile.setFileType(file.getContentType());
-            uploadedFile.setFileName(file.getOriginalFilename());
-            UploadedFile uploadedFileToRet = fileUploadRepository.save(uploadedFile);
-            return uploadedFileToRet;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        uploadedFile.setFileName(file.getOriginalFilename());
+        UploadedFile uploadedFileToResponse = fileUploadRepository.save(uploadedFile);
+        return uploadedFileToResponse;
 
     }
 
     @Override
     public UploadedFile downloadFile(String fileId) {
-        UploadedFile uploadedFileToRet = fileUploadRepository.getOne(fileId);
-        return uploadedFileToRet;
+        UploadedFile uploadedFileToRes = fileUploadRepository.getOne(fileId);
+        return uploadedFileToRes;
     }
 }

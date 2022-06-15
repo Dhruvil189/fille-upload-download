@@ -2,20 +2,20 @@ package com.stackfortech.multipartDemo.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 
 @Entity
+@Table(name="exam")
 public class UploadedFile {
-
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid",strategy = "uuid2")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String fileId;
+    @Column(name = "fileName")
     private String fileName;
+    @Column(name = "fileType")
     private String fileType;
+    @Column(name = "fileData")
     @Lob
     private byte[] fileData;
 
